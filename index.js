@@ -10,5 +10,5 @@ function formatListener(address) {
 }
 
 const listener = server.listen(process.env.PORT, () => {
-	console.log('Now listening on', formatListener(listener.address());
+	console.log('Now listening on', formatListener(listener.address()));
 });
