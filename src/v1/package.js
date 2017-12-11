@@ -5,7 +5,7 @@ function stripePlanToOutput(plan) {
 		id: plan.id,
 		name: plan.name,
 		meta: plan.metadata,
-		trial_duration: plan.trial_period_days
+		trial_duration: plan.trial_period_days,
 		amount: plan.amount,
 		currency: plan.currency,
 		interval: plan.interval,

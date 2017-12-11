@@ -2,9 +2,10 @@
   "name": "billimanjaro-api",
   "version": "0.0.1",
   "description": "The api server for Billimanjaro",
-  "main": "index.mjs",
+  "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "node ./index.js"
   },
   "repository": {
     "type": "git",
