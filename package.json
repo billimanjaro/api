@@ -4,8 +4,9 @@
   "description": "The api server for Billimanjaro",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "start": "node ./index.js"
+    "test": "npm run lint && jest",
+    "start": "node ./index.js",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,7 @@
   },
   "homepage": "https://github.com/billimanjaro/api#readme",
   "devDependencies": {
-    "eslint": "^4.12.0",
+    "eslint": "^4.13.0",
     "jest": "^21.2.1"
   },
   "dependencies": {
