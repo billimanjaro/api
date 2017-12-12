@@ -6,6 +6,7 @@ app.locals.stripe = require('../lib/stripe');
 
 app.use(require('cors')());
 app.use(express.json());
+app.use(require('morgan')(process.env.LOG_PROFILE || 'dev'));
 
 ['v1'].map(version => app.use('/' + version, require('./' + version)));
 
