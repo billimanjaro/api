@@ -1,4 +1,5 @@
 const stripe = require('../../lib/stripe');
+const error = require('../../lib/error');
 
 function stripePlanToOutput(plan) {
 	return {
@@ -13,19 +14,11 @@ function stripePlanToOutput(plan) {
 	};
 }
 
-function handleError(err, req, res) {
-	console.log(JSON.stringify({ error: err, request_id: req.headers['x-request-id'] }));
-	res.status(500).send({
-		error: 'API call failed',
-		request_id: req.headers['x-request-id']
-	});
-}
-
 module.exports = app => {
 	app.get('/package', (req, res) => {
 		stripe.plans.list({}, (err, plans) => {
 			if(err) {
-				handleError(err, req, res);
+				error.handleError(err, req, res);
 				return;
 			}
 
@@ -36,7 +29,7 @@ module.exports = app => {
 	app.get('/package/:id', (req, res) => {
 		stripe.plans.retrieve(req.params.id, (err, plan) => {
 			if(err) {
-				handleError(err, req, res);
+				error.handleError(err, req, res);
 				return;
 			}
 
