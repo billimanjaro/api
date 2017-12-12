@@ -9,13 +9,10 @@ function requestToStripeCustomer(body) {
 	};
 }
 
-module.exports = (req, res) => {
+module.exports = (req, res, next) => {
 	const customer = requestToStripeCustomer(req.body);
-	stripe.customers.create(customer, (err, customer) => {
-		if(err) {
-			error.handleError(err, req, res);
-			return;
-		}
+	req.app.locals.stripe.customers.create(customer, (err, customer) => {
+		if(err) return next(err);
 
 		const url = req.originalUrl + '/' + customer.id;
 		res.redirect(303, url);

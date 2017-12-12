@@ -1,6 +1,3 @@
-const stripe = require('../../../lib/stripe');
-const error = require('../../../lib/error');
-
 function stripeCustomerToOutput(customer) {
 	return {
 		id: customer.id,
@@ -14,12 +11,10 @@ function stripeCustomerToOutput(customer) {
 	};
 }
 
-module.exports = (req, res) => {
-	stripe.customers.retrieve(req.params.id, (err, customer) => {
-		if(err) {
-			error.handleError(err, req, res);
-			return;
-		}
+module.exports = (req, res, next) => {
+	req.app.locals.stripe.customers.retrieve(req.params.id, (err, customer) => {
+		if(err) return next(err);
+
 		res.status(200).send(stripeCustomerToOutput(customer));
 	})
 };
