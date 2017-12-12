@@ -1,6 +1,3 @@
-const stripe = require('../../../lib/stripe');
-const error = require('../../../lib/error');
-
 function requestToStripeCustomer(body) {
 	let result = {};
 	if(body.email) result.email = body.email;
@@ -9,13 +6,11 @@ function requestToStripeCustomer(body) {
 	return result;
 }
 
-module.exports = (req, res) => {
+module.exports = (req, res, next) => {
 	const customer = requestToStripeCustomer(req.body);
-	stripe.customers.update(req.params.id, customer, (err, customer) => {
-		if(err) {
-			error.handleError(err, req, res);
-			return;
-		}
+
+	req.app.locals.stripe.customers.update(req.params.id, customer, (err, customer) => {
+		if(err) return next(err);
 
 		const url = req.originalUrl;
 		res.redirect(303, url);

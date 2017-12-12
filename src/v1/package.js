@@ -15,23 +15,17 @@ function stripePlanToOutput(plan) {
 }
 
 module.exports = app => {
-	app.get('/package', (req, res) => {
-		stripe.plans.list({}, (err, plans) => {
-			if(err) {
-				error.handleError(err, req, res);
-				return;
-			}
+	app.get('/package', (req, res, next) => {
+		req.app.locals.stripe.plans.list({}, (err, plans) => {
+			if(err) return next(err);
 
 			res.status(200).send(plans.data.map(stripePlanToOutput));
 		});
 	});
 
-	app.get('/package/:id', (req, res) => {
-		stripe.plans.retrieve(req.params.id, (err, plan) => {
-			if(err) {
-				error.handleError(err, req, res);
-				return;
-			}
+	app.get('/package/:id', (req, res, next) => {
+		req.app.locals.stripe.plans.retrieve(req.params.id, (err, plan) => {
+			if(err) return next(err);
 
 			res.status(200).send(stripePlanToOutput(plan));
 		});

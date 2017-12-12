@@ -27,12 +27,9 @@ function stripeSubscriptionToOutput(subscription) {
 	};
 }
 
-module.exports = (req, res) => {
-	stripe.customers.list({}, (err, customers) => {
-		if(err) {
-			error.handleError(err, req, res);
-			return;
-		}
+module.exports = (req, res, next) => {
+	req.app.locals.stripe.customers.list({}, (err, customers) => {
+		if(err) return next(err);
 
 		res.status(200).send(customers.data.map(stripeCustomerToOutput));
 	});
